@@ -1,4 +1,4 @@
-import { Repository } from "@/src/feature/search/types/repossitory";
+import { Repository } from "@/src/feature/search/types/repository";
 import { Badge, Column, Row, Text } from "@/src/ui";
 
 export default function RepositoryHeader({

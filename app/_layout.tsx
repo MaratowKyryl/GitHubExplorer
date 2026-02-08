@@ -1,13 +1,11 @@
+import { QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
 import ThemeToggleButton from "@/src/components/ThemeToggleButton";
-import { SelectedRepositoryProvider } from "@/src/feature/search/context/SelectedRepositoryContext";
 import { useReactQuery } from "@/src/hooks/useReactQuery";
 import { UIThemeProvider, useTheme } from "@/src/ui";
-
-import { QueryClientProvider } from "@tanstack/react-query";
 
 function NavigationStack() {
   const { colors, colorScheme } = useTheme();
@@ -47,9 +45,7 @@ export default function RootLayout() {
   return (
     <UIThemeProvider>
       <QueryClientProvider client={queryClient}>
-        <SelectedRepositoryProvider>
-          <NavigationStack />
-        </SelectedRepositoryProvider>
+        <NavigationStack />
       </QueryClientProvider>
     </UIThemeProvider>
   );

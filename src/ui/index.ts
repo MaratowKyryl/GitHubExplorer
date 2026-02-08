@@ -36,7 +36,6 @@ export {
 // Primitives
 export { Text, type TextProps } from "./primitives";
 export { PressableScale, type PressableScaleProps } from "./primitives";
-export { PressableOpacity, type PressableOpacityProps } from "./primitives";
 export { Spacer, type SpacerProps } from "./primitives";
 export { Divider, type DividerProps } from "./primitives";
 export { Row, Column, type RowProps, type ColumnProps } from "./primitives";
@@ -53,9 +52,7 @@ export {
   type BadgeVariant,
   type AvatarProps,
   type SkeletonProps,
-  TextField,
   SearchBar,
-  type TextFieldProps,
   type SearchBarProps,
   Card,
   Screen,
@@ -76,11 +73,5 @@ export {
   type IconButtonProps,
   type IconButtonVariant,
   List,
-  ListFooterLoading,
-  ListFooterEnd,
-  ListSeparator,
   type ListProps,
-  type ListFooterLoadingProps,
-  type ListFooterEndProps,
-  type ListSeparatorProps,
 } from "./components";

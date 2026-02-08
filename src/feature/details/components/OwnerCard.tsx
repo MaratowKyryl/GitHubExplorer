@@ -1,4 +1,4 @@
-import { RepositoryOwner } from "@/src/feature/search/types/repossitory";
+import { RepositoryOwner } from "@/src/feature/search/types/repository";
 import { Avatar, Card, Column, Row, Text } from "@/src/ui";
 
 export default function OwnerCard({ owner }: { owner: RepositoryOwner }) {

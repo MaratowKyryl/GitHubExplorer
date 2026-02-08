@@ -1,4 +1,4 @@
-import { Repository } from "@/src/feature/search/types/repossitory";
+import { Repository } from "@/src/feature/search/types/repository";
 import { Card, Column, Icon, Row, Text } from "@/src/ui";
 import { formatStars } from "@/src/utils/formatting";
 
@@ -24,11 +24,7 @@ function StatItem({
   );
 }
 
-export default function StatsCard({
-  repository,
-}: {
-  repository: Repository;
-}) {
+export default function StatsCard({ repository }: { repository: Repository }) {
   return (
     <Card padding="md">
       <Row>

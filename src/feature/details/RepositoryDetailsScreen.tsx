@@ -1,5 +1,7 @@
 import { Linking } from "react-native";
 
+import { useLocalSearchParams } from "expo-router";
+
 import ActivityCard from "./components/ActivityCard";
 import DescriptionSection from "./components/DescriptionSection";
 import OwnerCard from "./components/OwnerCard";
@@ -7,11 +9,13 @@ import RepositoryHeader from "./components/RepositoryHeader";
 import StatsCard from "./components/StatsCard";
 import TopicsSection from "./components/TopicsSection";
 
-import { useSelectedRepository } from "@/src/feature/search/context/SelectedRepositoryContext";
+import useRepoDetailsFromQueryCache from "@/src/feature/details/hooks/useRepoDetailsFromQueryCache";
 import { Button, Column, Screen, Spacer } from "@/src/ui";
 
 export default function RepositoryDetailsScreen() {
-  const { selectedRepository: repo } = useSelectedRepository();
+  const { id, search } = useLocalSearchParams();
+
+  const repo = useRepoDetailsFromQueryCache(id, search);
 
   if (repo == null) {
     return null;

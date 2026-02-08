@@ -1,8 +1,13 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { Repository } from "@/src/feature/search/types/repossitory";
+import { Repository } from "@/src/feature/search/types/repository";
+import { getRequestUnauthorized } from "@/src/utils/http";
 
-const getSearchRepoQueryKey = (search: string, perPage: number) => [
+const GITHUB_SEARCH_REPOS_URL = "https://api.github.com/search/repositories";
+
+const PER_PAGE = 10;
+
+export const getSearchRepoQueryKey = (search: string, perPage = PER_PAGE) => [
   "searchRepo",
   search,
   perPage,
@@ -16,7 +21,7 @@ interface SearchRepositoriesReturnType {
 
 export default function useSearchRepoInfiniteQuery(
   search: string,
-  perPage = 10,
+  perPage = PER_PAGE,
 ) {
   return useInfiniteQuery({
     queryKey: getSearchRepoQueryKey(search, perPage),
@@ -36,18 +41,21 @@ export default function useSearchRepoInfiniteQuery(
   });
 }
 
-const getReposByQuery = async (
+const getReposByQuery = (
   search: string,
   signal: AbortSignal,
   pageParam: number,
-  perPage = 100,
+  perPage: number,
 ): Promise<SearchRepositoriesReturnType> => {
-  const url = new URL("https://api.github.com/search/repositories");
-
-  url.searchParams.set("q", search);
-  url.searchParams.set("page", String(pageParam));
-  url.searchParams.set("per_page", String(perPage));
-
-  const response = await fetch(url, { signal });
-  return await response.json();
+  return getRequestUnauthorized<SearchRepositoriesReturnType>(
+    GITHUB_SEARCH_REPOS_URL,
+    {
+      params: {
+        q: search,
+        page: String(pageParam),
+        per_page: String(perPage),
+      },
+      signal,
+    },
+  );
 };
