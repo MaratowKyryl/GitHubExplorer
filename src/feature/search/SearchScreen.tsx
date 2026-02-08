@@ -1,6 +1,7 @@
-import { useCallback, useMemo, useState } from "react";
-import { StyleSheet } from "react-native";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { StyleSheet, TextInput } from "react-native";
 
+import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 
 import RepositoriesListEmpty from "./components/RepositoriesListEmpty";
@@ -18,8 +19,17 @@ const keyExtractor = (item: Repository) => item.id.toString();
 export default function SearchScreen() {
   const [search, setSearch] = useState("");
   const onSearchChange = useDebouncedCallback(setSearch, 500);
+  const searchInputRef = useRef<TextInput>(null);
 
   const router = useRouter();
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        searchInputRef.current?.blur();
+      };
+    }, []),
+  );
 
   const {
     data: repos,
@@ -36,21 +46,31 @@ export default function SearchScreen() {
 
   const onRefresh = useDebouncedCallback(handleRefresh, 500);
 
+  const handleRepositoryPress = useCallback(
+    (repository: Repository) => {
+      searchInputRef.current?.blur();
+      router.push({
+        pathname: "/repositories/[id]",
+        params: { id: repository.id, search },
+      });
+    },
+    [router, search],
+  );
+
   const renderRepositoryItem = useCallback(
     ({ item }: { item: Repository }) => {
-      const onPress = () => {
-        router.push({
-          pathname: "/repositories/[id]",
-          params: { id: item.id, search },
-        });
-      };
-      return <RepositoryListItem repository={item} onPress={onPress} />;
+      return (
+        <RepositoryListItem
+          repository={item}
+          onPress={() => handleRepositoryPress(item)}
+        />
+      );
     },
-    [search],
+    [handleRepositoryPress],
   );
 
   const listHeader = useMemo(
-    () => <SearchBar onChangeText={onSearchChange} />,
+    () => <SearchBar ref={searchInputRef} onChangeText={onSearchChange} />,
     [onSearchChange],
   );
 
