@@ -7,9 +7,11 @@ import { EmptyState, ErrorState } from "@/src/ui";
 export default function RepositoriesListEmpty({
   isLoading,
   isError,
+  noResults,
 }: {
   isLoading: boolean;
   isError: boolean;
+  noResults: boolean;
 }) {
   if (isLoading) {
     return (
@@ -20,6 +22,7 @@ export default function RepositoriesListEmpty({
       </View>
     );
   }
+
   if (isError) {
     return (
       <ErrorState
@@ -28,6 +31,17 @@ export default function RepositoriesListEmpty({
       />
     );
   }
+
+  if (noResults) {
+    return (
+      <EmptyState
+        icon="file-tray-outline"
+        title="No repositories found"
+        description="Try a different search term or check the spelling"
+      />
+    );
+  }
+
   return (
     <EmptyState
       icon="search"

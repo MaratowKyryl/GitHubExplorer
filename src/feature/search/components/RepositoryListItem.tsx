@@ -1,5 +1,3 @@
-import { View } from "react-native";
-
 import { Repository } from "@/src/feature/search/types/repossitory";
 import {
   Avatar,
@@ -19,51 +17,49 @@ export default function RepositoryListItem({
   repository: Repository;
 }) {
   return (
-    <View onLayout={(e) => console.log(e.nativeEvent.layout)}>
-      <Card padding="md" style={{ marginVertical: spacing.xs }}>
-        <Row gap="md" align="flex-start">
-          <Avatar source={repository.owner.avatar_url} size={40} />
+    <Card padding="md" style={{ marginVertical: spacing.xs }}>
+      <Row gap="md" align="flex-start">
+        <Avatar source={repository.owner.avatar_url} size={40} />
 
-          <Column gap="xs" style={{ flex: 1 }}>
-            <Text variant="bodyStrong" numberOfLines={1}>
-              {repository.full_name}
+        <Column gap="xs" style={{ flex: 1 }}>
+          <Text variant="bodyStrong" numberOfLines={1}>
+            {repository.full_name}
+          </Text>
+
+          {repository.description != null && (
+            <Text variant="bodySmall" color="textSecondary" numberOfLines={2}>
+              {repository.description}
             </Text>
+          )}
 
-            {repository.description != null && (
-              <Text variant="bodySmall" color="textSecondary" numberOfLines={2}>
-                {repository.description}
+          <Spacer y="xs" />
+
+          <Row gap="md" align="center">
+            <Row gap="xs" align="center">
+              <Icon name="star" size={14} color="#F79009" />
+              <Text variant="caption" color="textSecondary">
+                {formatStars(repository.stargazers_count)}
               </Text>
+            </Row>
+
+            {repository.language != null && (
+              <Row gap="xs" align="center">
+                <Icon name="ellipse" size={10} color="#2E90FA" />
+                <Text variant="caption" color="textSecondary">
+                  {repository.language}
+                </Text>
+              </Row>
             )}
 
-            <Spacer y="xs" />
-
-            <Row gap="md" align="center">
-              <Row gap="xs" align="center">
-                <Icon name="star" size={14} color="#F79009" />
-                <Text variant="caption" color="textSecondary">
-                  {formatStars(repository.stargazers_count)}
-                </Text>
-              </Row>
-
-              {repository.language != null && (
-                <Row gap="xs" align="center">
-                  <Icon name="ellipse" size={10} color="#2E90FA" />
-                  <Text variant="caption" color="textSecondary">
-                    {repository.language}
-                  </Text>
-                </Row>
-              )}
-
-              <Row gap="xs" align="center">
-                <Icon name="time-outline" size={14} />
-                <Text variant="caption" color="textTertiary">
-                  {formatDate(repository.updated_at)}
-                </Text>
-              </Row>
+            <Row gap="xs" align="center">
+              <Icon name="time-outline" size={14} />
+              <Text variant="caption" color="textTertiary">
+                {formatDate(repository.updated_at)}
+              </Text>
             </Row>
-          </Column>
-        </Row>
-      </Card>
-    </View>
+          </Row>
+        </Column>
+      </Row>
+    </Card>
   );
 }

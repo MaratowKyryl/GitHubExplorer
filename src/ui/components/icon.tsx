@@ -1,8 +1,10 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import React, { memo, type ComponentProps } from 'react';
-import { useTheme } from '../providers/use-theme';
+import React, { type ComponentProps, memo } from "react";
 
-export type IconName = ComponentProps<typeof Ionicons>['name'];
+import Ionicons from "@expo/vector-icons/Ionicons";
+
+import { useTheme } from "../providers/use-theme";
+
+export type IconName = ComponentProps<typeof Ionicons>["name"];
 
 export interface IconProps {
   name: IconName;
@@ -11,7 +13,20 @@ export interface IconProps {
   accessibilityLabel?: string;
 }
 
-export const Icon = memo(function Icon({ name, size = 24, color, accessibilityLabel }: IconProps) {
+export const Icon = memo(function Icon({
+  name,
+  size = 24,
+  color,
+  accessibilityLabel,
+}: IconProps) {
   const { colors } = useTheme();
-  return <Ionicons name={name} size={size} color={color ?? colors.icon} accessibilityLabel={accessibilityLabel} accessibilityRole="image" />;
+  return (
+    <Ionicons
+      name={name}
+      size={size}
+      color={color ?? colors.icon}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityRole="image"
+    />
+  );
 });
