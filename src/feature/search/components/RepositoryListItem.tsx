@@ -34,7 +34,7 @@ export default function RepositoryListItem({
 
           <Spacer y="xs" />
 
-          <Row gap="md" align="center">
+          <Row gap="md" style={{ flexWrap: "wrap" }} align="center">
             <Row gap="xs" align="center">
               <Icon name="star" size={14} color="#F79009" />
               <Text variant="caption" color="textSecondary">
