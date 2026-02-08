@@ -2,24 +2,12 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
+import ThemeToggleButton from "@/src/components/ThemeToggleButton";
+import { SelectedRepositoryProvider } from "@/src/feature/search/context/SelectedRepositoryContext";
 import { useReactQuery } from "@/src/hooks/useReactQuery";
-import { IconButton, UIThemeProvider, useTheme } from "@/src/ui";
+import { UIThemeProvider, useTheme } from "@/src/ui";
 
 import { QueryClientProvider } from "@tanstack/react-query";
-
-function ThemeToggleButton() {
-  const { colorScheme, setThemeOverride } = useTheme();
-
-  return (
-    <IconButton
-      name={colorScheme === "dark" ? "sunny" : "moon"}
-      accessibilityLabel="Toggle theme"
-      onPress={() =>
-        setThemeOverride(colorScheme === "dark" ? "light" : "dark")
-      }
-    />
-  );
-}
 
 function NavigationStack() {
   const { colors, colorScheme } = useTheme();
@@ -41,6 +29,12 @@ function NavigationStack() {
             headerRight: () => <ThemeToggleButton />,
           }}
         />
+        <Stack.Screen
+          name="repositories/[id]"
+          options={{
+            title: "Details",
+          }}
+        />
       </Stack>
       <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
     </>
@@ -53,7 +47,9 @@ export default function RootLayout() {
   return (
     <UIThemeProvider>
       <QueryClientProvider client={queryClient}>
-        <NavigationStack />
+        <SelectedRepositoryProvider>
+          <NavigationStack />
+        </SelectedRepositoryProvider>
       </QueryClientProvider>
     </UIThemeProvider>
   );

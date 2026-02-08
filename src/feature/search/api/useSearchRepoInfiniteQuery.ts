@@ -26,10 +26,12 @@ export default function useSearchRepoInfiniteQuery(
     select: (data) => {
       return data?.pages.flatMap((page) => page.items) ?? [];
     },
-    getNextPageParam: (lastPage, _, page) => {
-      return lastPage.items.length < perPage ? undefined : page + 1;
+    getNextPageParam: (lastPage, allPages, page) => {
+      const loadedItemsAproximateCount = allPages.length * perPage;
+      return lastPage.total_count > loadedItemsAproximateCount
+        ? page + 1
+        : undefined;
     },
-
     enabled: !!search,
   });
 }

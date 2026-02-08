@@ -1,3 +1,6 @@
+import { useRouter } from "expo-router";
+
+import { useSelectedRepository } from "@/src/feature/search/context/SelectedRepositoryContext";
 import { Repository } from "@/src/feature/search/types/repossitory";
 import {
   Avatar,
@@ -16,8 +19,20 @@ export default function RepositoryListItem({
 }: {
   repository: Repository;
 }) {
+  const { selectRepository } = useSelectedRepository();
+  const router = useRouter();
+
+  const handlePress = () => {
+    selectRepository(repository);
+    router.push(`/repositories/${repository.id}`);
+  };
+
   return (
-    <Card padding="md" style={{ marginVertical: spacing.xs }}>
+    <Card
+      padding="md"
+      style={{ marginVertical: spacing.xs }}
+      onPress={handlePress}
+    >
       <Row gap="md" align="flex-start">
         <Avatar source={repository.owner.avatar_url} size={40} />
 
