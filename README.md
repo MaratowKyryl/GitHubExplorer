@@ -77,7 +77,6 @@ src/
     search/                 # Search feature module
       api/                  #   API hooks (useSearchRepoInfiniteQuery)
       components/           #   List item, empty state
-      context/              #   Selected repository context
       skeletons/            #   Loading skeletons
       types/                #   Repository & Owner interfaces
       SearchScreen.tsx
@@ -130,17 +129,13 @@ The UI layer is built as a standalone kit with design tokens (colors, typography
 
 ## What I Would Improve with More Time
 
-- **Deep linking on Details screen** — currently the selected repository is passed via Context, which means deep linking to `/repositories/:id` won't load data. I would add a `useRepoDetailsById` hook that fetches repository data by ID from the GitHub API, using the context value as an optimistic cache and the API call as a fallback. Context is generally an anti-pattern for navigation data, but given the current scope and the single-source API response, it works without measurable performance cost.
+- **Deep linking on Details screen** — currently details rely on navigation state and loaded query cache on previous screen, so deep linking to `/repositories/:id` won't load data. I would add a `useRepoDetailsById` hook that fetches repository data by ID from the GitHub API, using cached list data when available and the API call as a fallback.
 
 - **UI kit review** — the current UI kit was AI-generated with strict criteria: lightweight optimized primitives, deep reusability across the project, and adaptability for scaling. With more time I would audit each component for edge cases, add prop documentation, and ensure consistent accessibility support.
 
 - **Unit & integration tests** — add tests for utility functions (`formatDate`, `formatStars`), custom hooks (`useDebouncedCallback`, `useSearchRepoInfiniteQuery`), and the `CustomFetchError` class. Integration tests for the search flow with MSW for API mocking.
 
 - **Offline-first mode** — leverage React Query's `gcTime` + `@react-native-community/netinfo` to show cached data when offline with a connectivity banner.
-
-- **Performance profiling** — capture Flipper/React DevTools screenshots demonstrating 60 FPS scrolling, memory usage, and render counts under load.
-
-- **Accessibility** — full VoiceOver/TalkBack audit, semantic roles on all interactive elements, proper focus order.
 
 ## APK
 
